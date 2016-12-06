@@ -1,0 +1,32 @@
+From 83f63ba2df477b3b7493b8c8170541283fb570ee Mon Sep 17 00:00:00 2001
+From: John Lightsey <jd@cpanel.net>
+Date: Tue, 19 Apr 2011 13:22:30 -0500
+Subject: [PATCH] only_signal_running
+
+Case 49021: Apply patch provided by CloudLinux to limit process signaling
+to processes that have actually been started.
+---
+ modules/fcgid/fcgid_proc_unix.c |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+diff --git a/modules/fcgid/fcgid_proc_unix.c b/modules/fcgid/fcgid_proc_unix.c
+index cfba6b3..9535f6c 100644
+--- a/modules/fcgid/fcgid_proc_unix.c
++++ b/modules/fcgid/fcgid_proc_unix.c
+@@ -422,7 +422,12 @@ static apr_status_t proc_kill_internal(fcgid_procnode *procnode, int sig)
+         log_setid_failure("mod_fcgid PM", "effective uid", 0);
+         _exit(1);
+     }
+-    rv = apr_proc_kill(&(procnode->proc_id), sig);
++    //rv = apr_proc_kill(&(procnode->proc_id), sig);
++    if (procnode->proc_id.pid != -1) {
++       rv = apr_proc_kill(&(procnode->proc_id), sig);
++    } else {
++       rv = APR_SUCCESS;
++    }
+     if (ap_unixd_config.suexec_enabled && seteuid(ap_unixd_config.user_id) != 0) {
+         /* can't drop privileges after signalling (should not occur); do NOT
+          * proceed any further as euid(0)!
+-- 
+1.7.2.1
+
