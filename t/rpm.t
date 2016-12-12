@@ -10,6 +10,7 @@ use base qw( Test::Class );
 
 use Test::More;
 use Test::NoWarnings;
+use Test::File;
 use File::Slurp;
 use FindBin;
 
@@ -67,7 +68,7 @@ sub test_validate_module_conf : Tests(3) {
     return 1;
 }
 
-sub test_validate_rundir : Tests(2) {
+sub test_validate_rundir : Tests(5) {
     my ($self) = @_;
 
     note "Validating the integrity of the mod_fcgid run directory";
@@ -75,6 +76,13 @@ sub test_validate_rundir : Tests(2) {
     my @matches = $self->{spec}->{content} =~ m{^\%(attr\(\d+,\w+,\w+\))\s*\%\{_rundir\}/mod_fcgid\s*$}gm;
     is( scalar @matches, 1, "Found the /run/mod_fcgid directory" );
     like( $matches[0], qr/attr\(0750,nobody,root\)/, "The /run/mod_fcgid directory contains correct permissions" );
+
+    @matches = $self->{spec}->{content} =~ m{^Source\d*:\s*mod_fcgid\-tmpfs\.conf}igm;
+    is( scalar @matches, 1, 'Found the tmpfiles.d configuration file for /run/mod_fcgid in spec file' );
+
+    my $src = "$FindBin::Bin/../SOURCES/mod_fcgid-tmpfs.conf";
+    ok( -s $src, 'Found tmpfiles.d configuration file in the SOURCES directory' );
+    file_contains_like( $src, qr{^\s*d\s+(?:/var)?/run/mod_fcgid\s+0750\s+nobody\s+root\s*}, 'The /run/mod_fcgid config for tmpfiles.d is correct' );
 
     return 1;
 }
