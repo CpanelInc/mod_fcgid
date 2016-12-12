@@ -20,7 +20,7 @@ Name: %{ns_name}-%{module_name}
 Version: 2.3.9
 Vendor: cPanel, Inc.
 # Doing release_prefix this way for Release allows for OBS-proof versioning, see EA-4560 for more details
-%define release_prefix 7
+%define release_prefix 8
 Release: %{release_prefix}%{?dist}.cpanel
 Group: System Environment/Daemons
 URL: http://httpd.apache.org/mod_fcgid/
@@ -109,6 +109,9 @@ APXS=%{_httpd_apxs} ./configure.apxs
 %endif
 
 %changelog
+* Wed Dec 07 2016 Dan Muey <dan@cpanel.com> - 2.3.9-8
+- EA-5744: correct path, user, and group in tmp path config
+
 * Fri Nov 04 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 2.3.9-7
 - General cleanup (EA-5395)
 - Cleans up run/mod_fcgid directory when package is uninstalled (EA-5594)
