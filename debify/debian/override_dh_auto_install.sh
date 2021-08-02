@@ -16,7 +16,7 @@ mkdir -p debian/tmp/usr/share/doc/ea-apache24-mod_fcgid-$version
 
 cp fcgid.conf debian/tmp/etc/apache2/conf.d
 cp debian/SOURCES_FROM_SPEC/500-mod_fcgid.conf debian/tmp/etc/apache2/conf.modules.d
-cp debian/SOURCES_FROM_SPEC/500-mod_fcgid.conf debian/tmp/usr/lib/tmpfiles.d/mod_fcgid.conf
+cp debian/SOURCES_FROM_SPEC/mod_fcgid-tmpfs.conf debian/tmp/usr/lib/tmpfiles.d/mod_fcgid.conf
 cp CHANGES-FCGID debian/tmp/usr/share/doc/ea-apache24-mod_fcgid-$version
 cp modules/fcgid/ChangeLog debian/tmp/usr/share/doc/ea-apache24-mod_fcgid-$version
 cp LICENSE-FCGID debian/tmp/usr/share/doc/ea-apache24-mod_fcgid-$version
