@@ -20,7 +20,7 @@ Name: %{ns_name}-%{module_name}
 Version: 2.3.9
 Vendor: cPanel, Inc.
 # Doing release_prefix this way for Release allows for OBS-proof versioning, see EA-4560 for more details
-%define release_prefix 10
+%define release_prefix 11
 Release: %{release_prefix}%{?dist}.cpanel
 Group: System Environment/Daemons
 URL: http://httpd.apache.org/mod_fcgid/
@@ -109,6 +109,9 @@ APXS=%{_httpd_apxs} ./configure.apxs
 %endif
 
 %changelog
+* Wed Dec 29 2021 Dan Muey <dan@cpanel.net> - 2.3.9-11
+- ZC-9616: disable OBS debuginfo flag for C6 and C7
+
 * Thu Jan 03 2019 Cory McIntire <cory@cpanel.net> - 2.3.9-10
 - EA-7974: Move from Experimental to Production
 
