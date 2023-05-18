@@ -2,9 +2,6 @@
 %global ns_name ea-apache24
 %global module_name mod_fcgid
 
-# Prevent debuginfo from being generated
-%define debug_package %{nil}
-
 %if 0%{?fedora} >= 18 || 0%{?rhel} > 6
 %global _http_apxs %{_bindir}/apxs
 %global _rundir /run
@@ -20,7 +17,7 @@ Name: %{ns_name}-%{module_name}
 Version: 2.3.9
 Vendor: cPanel, Inc.
 # Doing release_prefix this way for Release allows for OBS-proof versioning, see EA-4560 for more details
-%define release_prefix 11
+%define release_prefix 12
 Release: %{release_prefix}%{?dist}.cpanel
 Group: System Environment/Daemons
 URL: http://httpd.apache.org/mod_fcgid/
@@ -109,6 +106,9 @@ APXS=%{_httpd_apxs} ./configure.apxs
 %endif
 
 %changelog
+* Wed May 17 2023 Dan Muey <dan@cpanel.net> - 2.3.9-12
+- ZC-10938: Remove DISABLE_DEBUGINFO (and i586 if any) from Makefile, deal w/ debug_package nil
+
 * Wed Dec 29 2021 Dan Muey <dan@cpanel.net> - 2.3.9-11
 - ZC-9616: disable OBS debuginfo flag for C6 and C7
 
